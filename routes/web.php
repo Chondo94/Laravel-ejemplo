@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('patito', 'CustomerController'); //esta ruta la estamos llamando desde el controlador.
+
+Route::get('/insert', function () {
+    return view('insert');
+});
