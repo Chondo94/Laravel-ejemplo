@@ -14,7 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::all();
+        return view('customer.index', compact('customers'));
     }
 
     /**
@@ -33,10 +34,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    { //esto nos sirve para crear un nuevo registro
+    public function store(Request $request){
+      //esto nos sirve para crear un nuevo registro
       $customer = Customer::create($request->all());
-      return redirect('/customer/show/'.$customer['id']);
+      return view('customer.show', compact('customer'));
     }
 
     /**
@@ -47,7 +48,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::findOrFail($id);
         return view('customer.show', compact('customer'));
     }
 
@@ -59,7 +60,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        return view('customer.edit', compact('customer'));
     }
 
     /**
@@ -71,7 +73,9 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($id);
+        $customer -> update($request->all());
+        return view('customer.show', compact('customer'));
     }
 
     /**
@@ -82,6 +86,8 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Customer::find($id)->delete();
+        $customers = Customer::all();
+        return view('customer.index', compact('customers'));
     }
 }
